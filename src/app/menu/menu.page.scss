@@ -1,0 +1,20 @@
+/* src/app/menu/menu.page.scss */
+.store-header {
+    text-align: center;
+    margin-bottom: 20px;
+
+    .store-photo {
+        width: 150px;
+        height: 150px;
+        border-radius: 75px;
+        object-fit: cover;
+        margin: 0 auto;
+        display: block;
+    }
+
+    h2 {
+        margin-top: 16px;
+        font-size: 1.5rem;
+        font-weight: 500;
+    }
+}

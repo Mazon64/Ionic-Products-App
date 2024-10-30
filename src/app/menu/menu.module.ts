@@ -1,11 +1,9 @@
+// src/app/menu/menu.module.ts
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
-import { MenuPageRoutingModule } from './menu-routing.module';
-
+import { RouterModule } from '@angular/router';
 import { MenuPage } from './menu.page';
 
 @NgModule({
@@ -13,8 +11,13 @@ import { MenuPage } from './menu.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    MenuPageRoutingModule
+    RouterModule.forChild([
+      {
+        path: '',
+        component: MenuPage
+      }
+    ])
   ],
   declarations: [MenuPage]
 })
-export class MenuPageModule {}
+export class MenuPageModule { }

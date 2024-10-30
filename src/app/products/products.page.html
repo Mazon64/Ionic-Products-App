@@ -8,7 +8,6 @@
 </ion-header>
 
 <ion-content>
-  <!-- Formulario para agregar o editar producto -->
   <ion-item>
     <ion-label position="floating">Nombre</ion-label>
     <ion-input [(ngModel)]="product.name"></ion-input>
@@ -39,17 +38,14 @@
     <ion-input [(ngModel)]="product.imageUrl"></ion-input>
   </ion-item>
 
-  <!-- Botón para agregar o actualizar producto -->
   <ion-button expand="full" (click)="addProduct()">
     {{ editIndex === null ? 'Agregar Producto' : 'Actualizar Producto' }}
   </ion-button>
 
-  <!-- Botón para cancelar actualizar producto (se muestra solo si editIndex===null es falso) -->
   <ion-button color="warning" expand="full" *ngIf="editIndex !== null" (click)="cancelEdit()">
     Cancelar
   </ion-button>
 
-  <!-- Lista de productos -->
   <ion-list>
     <ion-card *ngFor="let product of products; let i = index"
       style="display: flex; align-items: stretch; min-height: 150px;">
@@ -66,7 +62,6 @@
           <p><strong>Costo:</strong> {{ product.cost | currency }}</p>
           <p><strong>Precio de Venta:</strong> {{ product.price | currency }}</p>
 
-          <!-- Botones de edición y eliminación -->
           <ion-button color="primary" (click)="editProduct(i)">Editar</ion-button>
           <ion-button color="danger" (click)="deleteProduct(i)">Eliminar</ion-button>
         </ion-card-content>

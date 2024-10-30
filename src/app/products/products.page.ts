@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController } from '@ionic/angular'; // Importamos AlertController
+import { AlertController } from '@ionic/angular';
 
 interface Product {
   id: number;
@@ -29,33 +29,29 @@ export class ProductsPage {
   };
 
   products: Product[] = [];
-  editIndex: number | null = null; // Para saber si estamos editando un producto
+  editIndex: number | null = null;
 
   constructor(private alertController: AlertController) {
-    // Cargar productos desde localStorage al inicializar
     let productsLocal = localStorage.getItem('products');
     if (productsLocal) {
       this.products = JSON.parse(productsLocal);
     }
   }
 
-  // Guardar productos en localStorage
   saveProducts() {
     localStorage.setItem('products', JSON.stringify(this.products));
   }
 
   addProduct() {
     if (this.editIndex !== null) {
-      // Si estamos editando, actualizamos el producto
       this.products[this.editIndex] = this.product;
       this.editIndex = null;
     } else {
-      // Si no estamos editando, agregamos el nuevo producto
       this.products.push({ ...this.product });
     }
 
-    this.saveProducts(); // Guardar cambios en localStorage
-    this.clearForm(); // Limpiar el formulario
+    this.saveProducts();
+    this.clearForm();
   }
 
   clearForm() {
@@ -72,9 +68,8 @@ export class ProductsPage {
   }
 
   editProduct(index: number) {
-    // Cargamos los datos del producto a editar en el formulario
     this.product = { ...this.products[index] };
-    this.editIndex = index; // Guardamos el índice del producto que estamos editando
+    this.editIndex = index;
   }
 
   cancelEdit() {
@@ -83,7 +78,6 @@ export class ProductsPage {
   }
 
   async deleteProduct(index: number) {
-    // Mostramos un mensaje de confirmación antes de eliminar
     const alert = await this.alertController.create({
       header: 'Confirmar Eliminación',
       message: '¿Estás seguro de que deseas eliminar este producto?',
@@ -95,18 +89,16 @@ export class ProductsPage {
         {
           text: 'Eliminar',
           handler: () => {
-            // Si el usuario confirma, eliminamos el producto
-            this.products.splice(index, 1); // Eliminamos el producto
-            this.saveProducts(); // Guardamos los cambios en localStorage
+            this.products.splice(index, 1);
+            this.saveProducts();
           }
         }
       ]
     });
 
-    await alert.present(); // Presentamos el cuadro de diálogo
+    await alert.present();
   }
 
-  // Método para cargar productos desde localStorage (opcional si lo necesitas en alguna vista específica)
   loadProducts() {
     let productsLocal = localStorage.getItem('products');
     if (productsLocal) {

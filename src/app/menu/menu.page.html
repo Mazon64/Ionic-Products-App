@@ -1,18 +1,29 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Bienvenido</ion-title>
+    <ion-title>{{ storeName || 'Menú Principal' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="logout()">
+        <ion-icon name="log-out"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <h2>Selecciona una opción</h2>
+  <div class="store-header ion-padding">
+    <img [src]="storePhotoUrl" *ngIf="storePhotoUrl" alt="Store Photo" class="store-photo" />
+    <h2>{{ storeName }}</h2>
+  </div>
 
-  <!-- Botones de navegación -->
-  <ion-button expand="block" color="primary" (click)="navigateToProducts()">
-    Productos
-  </ion-button>
+  <ion-list>
+    <ion-item button (click)="navigateToProducts()">
+      <ion-icon name="cube" slot="start"></ion-icon>
+      <ion-label>Productos</ion-label>
+    </ion-item>
 
-  <ion-button expand="block" color="secondary" (click)="navigateToClients()">
-    Clientes
-  </ion-button>
+    <ion-item button (click)="navigateToClients()">
+      <ion-icon name="people" slot="start"></ion-icon>
+      <ion-label>Clientes</ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

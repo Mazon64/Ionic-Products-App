@@ -8,7 +8,6 @@
 </ion-header>
 
 <ion-content>
-  <!-- Formulario para agregar o editar cliente -->
   <ion-item>
     <ion-label position="floating">Nombre</ion-label>
     <ion-input [(ngModel)]="client.name"></ion-input>
@@ -34,17 +33,14 @@
     <ion-input [(ngModel)]="client.imageUrl"></ion-input>
   </ion-item>
 
-  <!-- Botón para agregar o actualizar cliente -->
   <ion-button expand="full" (click)="addClient()">
     {{ editIndex === null ? 'Agregar Cliente' : 'Actualizar Cliente' }}
   </ion-button>
 
-  <!-- Botón para cancelar actualizar cliente (se muestra solo si editIndex===null es falso) -->
   <ion-button color="warning" expand="full" *ngIf="editIndex !== null" (click)="cancelEdit()">
     Cancelar
   </ion-button>
 
-  <!-- Lista de clientes -->
   <ion-list>
     <ion-card *ngFor="let client of clients; let i = index"
       style="display: flex; align-items: stretch; min-height: 150px;">
@@ -60,7 +56,6 @@
           <p><strong>Teléfono:</strong> {{ client.phone }}</p>
           <p><strong>Email:</strong> {{ client.email }}</p>
 
-          <!-- Botones de edición y eliminación -->
           <ion-button color="primary" (click)="editClient(i)">Editar</ion-button>
           <ion-button color="danger" (click)="deleteClient(i)">Eliminar</ion-button>
         </ion-card-content>

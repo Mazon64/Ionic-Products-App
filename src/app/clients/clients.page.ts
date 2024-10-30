@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController } from '@ionic/angular'; // Importamos AlertController
+import { AlertController } from '@ionic/angular';
 
 interface Client {
   id: number;
@@ -26,33 +26,29 @@ export class ClientsPage {
   };
 
   clients: Client[] = [];
-  editIndex: number | null = null; // Para saber si estamos editando un cliente
+  editIndex: number | null = null;
 
   constructor(private alertController: AlertController) {
-    // Cargar clientes desde localStorage al inicializar
     let clientsLocal = localStorage.getItem('clients');
     if (clientsLocal) {
       this.clients = JSON.parse(clientsLocal);
     }
   }
 
-  // Guardar clientes en localStorage
   saveClients() {
     localStorage.setItem('clients', JSON.stringify(this.clients));
   }
 
   addClient() {
     if (this.editIndex !== null) {
-      // Si estamos editando, actualizamos el cliente
       this.clients[this.editIndex] = this.client;
       this.editIndex = null;
     } else {
-      // Si no estamos editando, agregamos el nuevo cliente
       this.clients.push({ ...this.client });
     }
 
-    this.saveClients(); // Guardar cambios en localStorage
-    this.clearForm(); // Limpiar el formulario
+    this.saveClients();
+    this.clearForm();
   }
 
   clearForm() {
@@ -68,18 +64,16 @@ export class ClientsPage {
   }
 
   editClient(index: number) {
-    // Cargamos los datos del cliente a editar en el formulario
     this.client = { ...this.clients[index] };
-    this.editIndex = index; // Guardamos el índice del cliente que estamos editando
+    this.editIndex = index;
   }
 
   cancelEdit() {
-    this.clearForm(); // Limpiar el formulario
-    this.editIndex = null; // Reiniciar el índice de edición
+    this.clearForm();
+    this.editIndex = null;
   }
 
   async deleteClient(index: number) {
-    // Mostramos un mensaje de confirmación antes de eliminar
     const alert = await this.alertController.create({
       header: 'Confirmar Eliminación',
       message: '¿Estás seguro de que deseas eliminar este cliente?',
@@ -91,18 +85,16 @@ export class ClientsPage {
         {
           text: 'Eliminar',
           handler: () => {
-            // Si el usuario confirma, eliminamos el cliente
-            this.clients.splice(index, 1); // Eliminamos el cliente
-            this.saveClients(); // Guardamos los cambios en localStorage
+            this.clients.splice(index, 1);
+            this.saveClients();
           }
         }
       ]
     });
 
-    await alert.present(); // Presentamos el cuadro de diálogo
+    await alert.present();
   }
 
-  // Método para cargar clientes desde localStorage (opcional si lo necesitas en alguna vista específica)
   loadClients() {
     let clientsLocal = localStorage.getItem('clients');
     if (clientsLocal) {

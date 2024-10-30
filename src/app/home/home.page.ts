@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { NavController, ModalController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
+import { AuthService } from '../services/auth.service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
 })
-export class HomePage implements OnInit {
+export class HomePage {
   loginForm: FormGroup;
   registerForm: FormGroup;
   isRegisterModalOpen = false;
@@ -15,14 +17,18 @@ export class HomePage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private navCtrl: NavController,
+    private authService: AuthService,
+    private toastController: ToastController
   ) {
-    // Formulario de inicio de sesión
+    if (this.authService.isAuthenticated()) {
+      this.navCtrl.navigateRoot('/menu');
+    }
+
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
     });
 
-    // Formulario de registro
     this.registerForm = this.formBuilder.group({
       fullName: ['', Validators.required],
       username: ['', Validators.required],
@@ -32,32 +38,50 @@ export class HomePage implements OnInit {
     });
   }
 
-  ngOnInit() { }
-
-  // Lógica para el inicio de sesión
-  onLogin() {
+  async onLogin() {
     if (this.loginForm.valid) {
-      // Autenticación y redirección después de inicio de sesión exitoso
-      this.navCtrl.navigateForward('/menu');
+      const { username, password } = this.loginForm.value;
+
+      if (this.authService.login(username, password)) {
+        this.navCtrl.navigateRoot('/menu');
+      } else {
+        const toast = await this.toastController.create({
+          message: 'Credenciales inválidas',
+          duration: 2000,
+          color: 'danger'
+        });
+        toast.present();
+      }
     }
   }
 
-  // Abrir el modal de registro
+  async onRegister() {
+    if (this.registerForm.valid) {
+      if (this.authService.register(this.registerForm.value)) {
+        const toast = await this.toastController.create({
+          message: 'Usuario registrado exitosamente',
+          duration: 2000,
+          color: 'success'
+        });
+        toast.present();
+        this.closeRegisterModal();
+      } else {
+        const toast = await this.toastController.create({
+          message: 'El nombre de usuario ya existe',
+          duration: 2000,
+          color: 'danger'
+        });
+        toast.present();
+      }
+    }
+  }
+
   openRegisterModal() {
     this.isRegisterModalOpen = true;
   }
 
-  // Cerrar el modal de registro
   closeRegisterModal() {
     this.isRegisterModalOpen = false;
-  }
-
-  // Lógica para el registro de usuario
-  onRegister() {
-    if (this.registerForm.valid) {
-      // Aquí puedes manejar el registro de usuario, almacenar los datos, etc.
-      console.log('Registro exitoso:', this.registerForm.value);
-      this.closeRegisterModal();  // Cierra el modal después del registro
-    }
+    this.registerForm.reset();
   }
 }
