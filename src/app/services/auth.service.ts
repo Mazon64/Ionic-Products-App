@@ -25,13 +25,15 @@ export class AuthService {
         return this.currentUserSubject.value;
     }
 
-    login(username: string, password: string): boolean {
+    login(username: string, password: string, rememberMe: boolean): boolean {
         const users = JSON.parse(localStorage.getItem('users') || '[]');
         const user = users.find((u: any) => u.username === username && u.password === password);
 
         if (user) {
             const { password, ...userWithoutPassword } = user;
-            localStorage.setItem('currentUser', JSON.stringify(userWithoutPassword));
+            if (rememberMe) {
+                localStorage.setItem('currentUser', JSON.stringify(userWithoutPassword));
+            }
             this.currentUserSubject.next(userWithoutPassword);
             return true;
         }
