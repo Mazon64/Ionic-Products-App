@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Clientes</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/menu">Página principal</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Formulario para agregar o editar cliente -->
+  <ion-item>
+    <ion-label position="floating">Nombre</ion-label>
+    <ion-input [(ngModel)]="client.name"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Dirección</ion-label>
+    <ion-input [(ngModel)]="client.address"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Teléfono</ion-label>
+    <ion-input type="tel" [(ngModel)]="client.phone"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Correo Electrónico</ion-label>
+    <ion-input type="email" [(ngModel)]="client.email"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">URL de la Foto</ion-label>
+    <ion-input [(ngModel)]="client.imageUrl"></ion-input>
+  </ion-item>
+
+  <!-- Botón para agregar o actualizar cliente -->
+  <ion-button expand="full" (click)="addClient()">
+    {{ editIndex === null ? 'Agregar Cliente' : 'Actualizar Cliente' }}
+  </ion-button>
+
+  <!-- Botón para cancelar actualizar cliente (se muestra solo si editIndex===null es falso) -->
+  <ion-button color="warning" expand="full" *ngIf="editIndex !== null" (click)="cancelEdit()">
+    Cancelar
+  </ion-button>
+
+  <!-- Lista de clientes -->
+  <ion-list>
+    <ion-card *ngFor="let client of clients; let i = index"
+      style="display: flex; align-items: stretch; min-height: 150px;">
+      <img [src]="client.imageUrl" *ngIf="client.imageUrl" alt="Foto del Cliente"
+        style="width: 100%; height: 100%; max-width: 200px; max-height: 200px; object-fit: cover; margin-right: 15px;" />
+
+      <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+        <ion-card-header>
+          <ion-card-title>{{ client.name }}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p><strong>Dirección:</strong> {{ client.address }}</p>
+          <p><strong>Teléfono:</strong> {{ client.phone }}</p>
+          <p><strong>Email:</strong> {{ client.email }}</p>
+
+          <!-- Botones de edición y eliminación -->
+          <ion-button color="primary" (click)="editClient(i)">Editar</ion-button>
+          <ion-button color="danger" (click)="deleteClient(i)">Eliminar</ion-button>
+        </ion-card-content>
+      </div>
+    </ion-card>
+
+  </ion-list>
+</ion-content>
