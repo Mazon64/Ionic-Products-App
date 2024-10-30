@@ -13,6 +13,10 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
+    path: '**',
+    redirectTo: '/home'
+  },
+  {
     path: 'clients',
     loadChildren: () => import('./clients/clients.module').then(m => m.ClientsPageModule),
     canActivate: [AuthGuard]
