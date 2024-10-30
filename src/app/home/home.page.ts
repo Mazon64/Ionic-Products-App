@@ -27,7 +27,6 @@ export class HomePage {
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
-      rememberMe: [false]
     });
 
     this.registerForm = this.formBuilder.group({
@@ -41,9 +40,9 @@ export class HomePage {
 
   async onLogin() {
     if (this.loginForm.valid) {
-      const { username, password, rememberMe } = this.loginForm.value;
+      const { username, password } = this.loginForm.value;
 
-      if (this.authService.login(username, password, rememberMe)) {
+      if (this.authService.login(username, password)) {
         this.navCtrl.navigateRoot('/menu');
       } else {
         const toast = await this.toastController.create({
